@@ -384,20 +384,14 @@ Cannot read the previousTitle for a route that has not yet been installed''',
       );
     } else {
       if (route.customTransition != null) {
-        return route.customTransition!.buildTransition(
+        return route.customTransition!.buildTransition<T>(
+          route,
           context,
           finalCurve,
           route.alignment,
           animation,
           secondaryAnimation,
-          route.popGesture ?? Get.defaultPopGesture
-              ? CupertinoBackGestureDetector<T>(
-                  gestureWidth:
-                      route.gestureWidth?.call(context) ?? _kBackGestureWidth,
-                  enabledCallback: () => _isPopGestureEnabled<T>(route),
-                  onStartPopGesture: () => _startPopGesture<T>(route),
-                  child: child)
-              : child,
+          child,
         );
       }
 
@@ -637,8 +631,14 @@ Cannot read the previousTitle for a route that has not yet been installed''',
 
         default:
           if (Get.customTransition != null) {
-            return Get.customTransition!.buildTransition(context, route.curve,
-                route.alignment, animation, secondaryAnimation, child);
+            return Get.customTransition!.buildTransition(
+                route,
+                context,
+                route.curve,
+                route.alignment,
+                animation,
+                secondaryAnimation,
+                child);
           }
 
           return PageTransitionsTheme().buildTransitions(
